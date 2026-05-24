@@ -55,10 +55,10 @@ add_task_Button.addEventListener("click", (e) => {
      const des=document.querySelector("#des")
      const date=document.querySelector("#date")
      const priority=document.querySelector("#priority")
+       const time=Date.now()
      form_data.addEventListener("submit",(e)=>{
         e.preventDefault()
-        console.log("form submit")
-        formValidation(title.value,des.value,date.value,priority.value)
+        formValidation(title.value,des.value,date.value,priority.value,time)
         form_data.reset()
        
      })
@@ -67,12 +67,13 @@ add_task_Button.addEventListener("click", (e) => {
 })
 
 
-function formValidation(title,des,date,priority){
+function formValidation(title,des,date,priority,time){
     if(title == "" || des == "" || date == "" || priority ==""){
        alert("Please fill in all input fields.")
     }
     else{
          let obj={
+            id:time,
             taskTitle:title,
             taskDes:des,
             taskDueDate:date,
@@ -81,28 +82,45 @@ function formValidation(title,des,date,priority){
         Data(obj)
     }
 }
-let data=[]
+let taskData=JSON.parse(localStorage.getItem("taskData"))||[]
 // saving data
 function Data(obj){
-    data.push(obj)
-    localStorage.setItem("taskData",JSON.stringify(data))
-     displayTask()
+    taskData.push(obj)
+    localStorage.setItem("taskData",JSON.stringify(taskData))
+    displayTask()
 }
 
 
 function displayTask(){
-    const taskData=JSON.parse(localStorage.getItem("taskData"))||[]
-    console.log(taskData)
     task_list.innerHTML=""
     taskData.forEach(e => {
-        task_list.innerHTML+=` <div class="task1">
+        task_list.innerHTML+=` <div class="task1" id="${e.id}">
+        <div class="div div1">
             <h4>${e.taskTitle}</h4>
             <p>${e.taskDes}</p>
+        </div>
+        <div class="div div2">
             <small>${e.taskDueDate}</small>
             <span>${e.taskPriority}</span>
+        </div>
+        <div class="div div3">
+         <i class="ri-delete-bin-5-line delete"></i>
+        </div>
+       
         </div>`
     });
+    const delete_task=document.querySelectorAll(".delete")
+    delete_task.forEach((e)=>{
+        e.addEventListener("click",(e)=>{
+        deleteTask(e.target.parentElement.parentElement.id)
+    })
+    })
+    
 }
 
-
+function deleteTask(e){
+    taskData=taskData.filter(elem => elem.id !== Number(e))
+    localStorage.setItem("taskData",JSON.stringify(taskData))
+    displayTask()
+}
 displayTask()
