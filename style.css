@@ -97,14 +97,16 @@ html {
 
 .task_list{
     width: 55%;
-     position: absolute;
-    top: 37%;
+     position:fixed;
+    top:48%;
     left: 40%;
      transform: translate(-34%, -30%);
    padding: 10px 30px;
    display: flex;
    flex-direction: column;
    gap: 30px;
+    height: 370px;
+    overflow-y: scroll;
   
 }
 .task1{
@@ -262,4 +264,113 @@ select:hover{
 }
 .create_task:hover{
      background-color: rgb(19, 81, 70);
+}
+
+
+@media (max-width: 768px){
+
+    .main{
+        width: 95%;
+    }
+
+    /* Search Bar */
+    .Searching_tab{
+        width: 90%;
+        left: 50%;
+        transform: translate(-50%, -40%);
+        height: auto;
+        padding: 10px;
+    }
+
+    .Searching_tab input{
+        font-size: 14px;
+        padding-left: 10px;
+    }
+
+    .Searching_tab i{
+        font-size: 24px;
+        padding-right: 10px;
+    }
+
+    /* Task List */
+    .task_list{
+        width: 90%;
+        left: 50%;
+        transform: translate(-50%, -30%);
+        padding: 10px;
+        height: 55vh;
+    }
+
+    .task1{
+        flex-direction: column;
+        gap: 15px;
+        padding: 15px;
+    }
+
+    .div1{
+        width: 100%;
+    }
+
+    .div2{
+        padding-left: 0;
+        align-items: flex-start;
+    }
+
+    .div3{
+        padding-top: 0;
+    }
+
+    .div3 i{
+        padding-left: 0;
+        font-size: 25px;
+    }
+
+    /* Add Task Button */
+    .add_task{
+        width: auto;
+        right: 20px;
+        bottom: 20px;
+        padding: 10px 15px;
+        gap: 10px;
+    }
+
+    .add_task p{
+        font-size: 16px;
+        padding-left: 0;
+        padding-top: 5px;
+    }
+
+    .add_task i{
+        font-size: 28px;
+    }
+
+    /* Form */
+    .form{
+        width: 85%;
+        height: auto;
+        padding: 20px;
+        gap: 20px;
+    }
+
+    .heading h1{
+        font-size: 24px;
+    }
+
+    .heading i{
+        font-size: 24px;
+    }
+
+    .input_form,
+    select{
+        height: 45px;
+    }
+
+    textarea{
+        min-height: 100px;
+    }
+
+    .create_task{
+        width: 100%;
+    }
+
 }

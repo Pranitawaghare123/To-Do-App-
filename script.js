@@ -55,8 +55,9 @@ add_task_Button.addEventListener("click", (e) => {
      const des=document.querySelector("#des")
      const date=document.querySelector("#date")
      const priority=document.querySelector("#priority")
-       const time=Date.now()
+       
      form_data.addEventListener("submit",(e)=>{
+        const time=Date.now()
         e.preventDefault()
         formValidation(title.value,des.value,date.value,priority.value,time)
         form_data.reset()
@@ -82,16 +83,16 @@ function formValidation(title,des,date,priority,time){
         Data(obj)
     }
 }
-let taskData=JSON.parse(localStorage.getItem("taskData"))||[]
+let taskDataStore=JSON.parse(localStorage.getItem("taskData"))||[]
 // saving data
 function Data(obj){
-    taskData.push(obj)
-    localStorage.setItem("taskData",JSON.stringify(taskData))
-    displayTask()
+    taskDataStore.push(obj)
+    localStorage.setItem("taskData",JSON.stringify(taskDataStore))
+    displayTask(taskDataStore)
 }
 
 
-function displayTask(){
+function displayTask(taskData){
     task_list.innerHTML=""
     taskData.forEach(e => {
         task_list.innerHTML+=` <div class="task1" id="${e.id}">
@@ -123,4 +124,59 @@ function deleteTask(e){
     localStorage.setItem("taskData",JSON.stringify(taskData))
     displayTask()
 }
-displayTask()
+displayTask(taskDataStore)
+
+
+// search code
+const search_icon=document.querySelector(".search_icon")
+// search_icon.addEventListener("click",(e)=>{
+//     console.log("click on search button")
+//     const input_value=document.querySelector("#task_search").value;
+//     if(input_value ==="") return;
+//     console.log(input_value);
+//     const title=[]
+//     const dataToStore=JSON.parse(localStorage.getItem("taskData"))
+//     dataToStore.forEach((e)=>{
+//         if(e.taskTitle.includes(input_value)){
+//             console.log("found data",e)
+//             displayTask(taskData)
+//         }
+//     })
+
+
+// })
+
+
+search_icon.addEventListener("click", () => {
+
+    const input_value = document
+        .querySelector("#task_search")
+        .value
+        .trim()
+        .toLowerCase();
+
+    // get data from localStorage
+    const taskData = JSON.parse(localStorage.getItem("taskData")) || [];
+
+    // if search empty show all tasks
+    if (input_value === "") {
+        displayTask(taskData);
+        return;
+    }
+
+    // filter matching tasks
+    const searchedTask = taskData.filter((task) => {
+
+        return (
+            task.taskTitle.toLowerCase().includes(input_value) ||
+            task.taskDes.toLowerCase().includes(input_value)
+        );
+
+    });
+
+    // display matched tasks
+    displayTask(searchedTask);
+
+    document.querySelector("#task_search").value=""
+   
+});
